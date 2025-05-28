@@ -23,6 +23,13 @@ Inside the container, verify that CUDA is properly configured:
 ```bash
 nvcc --version
 ```
+### build custom cuda kernels with pip
+
+To build and install custom CUDA kernels:
+```bash
+cd cuda_kernels
+pip install --user -e .
+```
 
 ## Experiments
 

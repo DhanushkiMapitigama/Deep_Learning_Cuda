@@ -6,6 +6,8 @@ cuda_kernels/linear_kernel.cpython-312-x86_64-linux-gnu.so
 
 data/
 
+__pycache__
+
 model/__pycache__
 
 utils/__pycache__

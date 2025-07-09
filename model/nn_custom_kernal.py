@@ -23,3 +23,7 @@ class Net(nn.Module):
         elapsed_time_ms = start.elapsed_time(end)
         print(f"Forward pass time custom: {elapsed_time_ms:.3f} ms")
         return x
+
+def get_model():
+    model = Net()
+    return model

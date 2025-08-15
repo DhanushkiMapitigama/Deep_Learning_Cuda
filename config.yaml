@@ -1,1 +1,6 @@
-version: "pytorch_cuda"  # Options: "custom_cuda" or "pytorch_cuda"
+version: "pytorch_cuda"  # Options: "custom_cuda" or "pytorch_cuda" or "cublas"
+method: "cpp_ext" # Options: python C++ extension pybind
+
+profile: False  # Boolean
+workflow: "training" # Options: "training" or "inference"
+epochs: 2

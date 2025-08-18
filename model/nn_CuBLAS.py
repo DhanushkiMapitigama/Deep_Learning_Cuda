@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model.cublas_linear import CuBLASLinear
+from model.linear_layer_cublas import CuBLASLinear
 
 class Net(nn.Module):
     def __init__(self):
@@ -14,3 +14,7 @@ class Net(nn.Module):
         x = self.relu(x)
         x = self.fc2(x)
         return x
+
+def get_model():
+    model = Net()
+    return model

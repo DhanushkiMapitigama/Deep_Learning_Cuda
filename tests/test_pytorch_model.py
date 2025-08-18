@@ -18,7 +18,7 @@ def sample_data():
     """
     train_loader, test_loader = get_mnist_loaders()
     data, label = next(iter(test_loader))
-    return torch.tensor(data)
+    return data
 
 def test_model(model, sample_data):
     """

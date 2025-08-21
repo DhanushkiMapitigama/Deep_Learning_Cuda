@@ -8,7 +8,7 @@ from torch.optim import SGD
 from torch.nn import functional as F
 from torch.profiler import profile, record_function, ProfilerActivity
 
-from utils.data import get_mnist_loaders
+from utils.data import get_loaders
 
 print(torch.cuda.get_device_capability(0)) 
 
@@ -70,7 +70,7 @@ num_epochs = config["epochs"]
 
 model_name = "pretrained_models/" + config["version"] + ".pth"
 
-train_loader, test_loader = get_mnist_loaders()
+train_loader, test_loader = get_loaders(config["data"])
 print("Starting training - " + config["version"] + " ...")
 
 if config["profile"]:

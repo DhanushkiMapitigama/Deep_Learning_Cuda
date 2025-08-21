@@ -4,3 +4,4 @@ method: "cpp_ext" # Options: python C++ extension pybind
 profile: False  # Boolean
 workflow: "training" # Options: "training" or "inference"
 epochs: 2
+data: "synthetic" # Options: "mnist" or "synthetic"

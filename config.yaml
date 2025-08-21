@@ -1,6 +1,9 @@
 version: "pytorch_cuda"  # Options: "custom_cuda" or "pytorch_cuda" or "cublas"
 method: "cpp_ext" # Options: python C++ extension pybind
 
+data: "mnist" # Options: "mnist" or "synthetic"
+
 profile: False  # Boolean
-workflow: "training" # Options: "training" or "inference"
-epochs: 2
+workflow: "profile_forward_backward" # Options: "profile_training" or "profile_forward_backward"
+
+epochs: 2 # Int

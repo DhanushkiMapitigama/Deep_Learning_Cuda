@@ -8,7 +8,8 @@ from torch.optim import SGD
 from torch.nn import functional as F
 from torch.profiler import profile, record_function, ProfilerActivity
 
-from utils.data import get_mnist_loaders
+# from utils.data import get_mnist_loaders
+from utils.data import get_loaders
 
 print(torch.cuda.get_device_capability(0)) 
 
@@ -70,32 +71,54 @@ num_epochs = config["epochs"]
 
 model_name = "pretrained_models/" + config["version"] + ".pth"
 
-train_loader, test_loader = get_mnist_loaders()
-print("Starting training - " + config["version"] + " ...")
+train_loader, test_loader = get_loaders(config["data"])
+print("Starting training - " + config["version"] + " with " + config["data"] + " data ...")
 
 if config["profile"]:
-    data_iter = iter(train_loader)
-    (data, target) = next(data_iter)
-    with profile(
-            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
-            record_shapes=True,
-            with_stack=False,
-            profile_memory=True
-        ) as prof:
-        for _ in range(1000):
-            model.train()
-            running_loss = 0.0
-            data, target = data.to(device), target.to(device)
-            optimizer.zero_grad()
-            with record_function("Forward"):
-                output = model(data)
-            loss = criterion(output, target)
-            with record_function("Backward"):
-                loss.backward()
-            optimizer.step()
+    if config["workflow"] == "profile_forward_backward":
+        data_iter = iter(train_loader)
+        inputs, targets = next(data_iter)
+        inputs, targets = inputs.to(device), targets.to(device)
+        with profile(
+                activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                record_shapes=True,
+                with_stack=False,
+                profile_memory=True
+            ) as prof:
+            for _ in range(1000):
+                model.train()
+                running_loss = 0.0
+                data, target = data.to(device), target.to(device)
+                optimizer.zero_grad()
+                with record_function("Forward"):
+                    output = model(data)
+                loss = criterion(output, target)
+                with record_function("Backward"):
+                    loss.backward()
+                optimizer.step()
+    else:  # "profile_training"
+        data_iter = iter(train_loader)
+        (data, target) = next(data_iter)
+        with profile(
+                activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                record_shapes=True,
+                with_stack=False,
+                profile_memory=True
+            ) as prof:
+            for _ in range(1000):
+                model.train()
+                running_loss = 0.0
+                data, target = data.to(device), target.to(device)
+                optimizer.zero_grad()
+                with record_function("Forward"):
+                    output = model(data)
+                loss = criterion(output, target)
+                with record_function("Backward"):
+                    loss.backward()
+                optimizer.step()
 
-    print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
-    test(model, device, test_loader)
+        print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
+        test(model, device, test_loader)
 else:
     start = time.perf_counter()
     for epoch in range(1, num_epochs + 1):

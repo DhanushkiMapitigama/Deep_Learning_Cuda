@@ -8,7 +8,6 @@ from torch.optim import SGD
 from torch.nn import functional as F
 from torch.profiler import profile, record_function, ProfilerActivity
 
-# from utils.data import get_mnist_loaders
 from utils.data import get_loaders
 
 print(torch.cuda.get_device_capability(0)) 

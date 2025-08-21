@@ -1,8 +1,7 @@
 import torch
-from torch.utils.data import Dataset, DataLoader
+import os 
 from torchvision import datasets, transforms
-
-import os
+from torch.utils.data import Dataset, DataLoader
 
 def get_mnist_loaders(batch_size=64):
     transform = transforms.Compose([

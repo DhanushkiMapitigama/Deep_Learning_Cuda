@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model.custom_linear import CustomLinear
+from model.linear_layer_custom import CustomLinear
 
 class Net(nn.Module):
     def __init__(self):

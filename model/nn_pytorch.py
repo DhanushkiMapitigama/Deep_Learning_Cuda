@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from model.pytorch_linear import PytorchLinear
+from model.linear_layer_pytorch import PytorchLinear
 
 class Net(nn.Module):
     def __init__(self):

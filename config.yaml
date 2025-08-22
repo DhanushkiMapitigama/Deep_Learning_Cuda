@@ -1,8 +1,18 @@
-version: "pytorch_cuda"  # Options: "custom_cuda" or "pytorch_cuda" or "cublas"
+version: "custom_cuda"  # Options: "custom_cuda" or "pytorch_cuda" or "cublas"
 method: "cpp_ext" # Options: python C++ extension pybind
 
-data: "mnist" # Options: "mnist" or "synthetic"
+data: "synthetic" # Options: "mnist" or "synthetic"
+  
+mnist:
+  batch_size: 64 # Int power of 2 
 
-profile: False  # Boolean
-workflow: "training" # Options: "training" or "inference"
+synthetic_data:
+  input_size: 1000 # Int
+  classes: 10 # Int
+  train_samples: 10000 # Int
+  test_samples: 4000 # Int
+  batch_size: 64 # Int power of 2 
+
+profile: True  # Boolean
+workflow: "profile_forward_backward" # Options: "training" or "profile_forward_backward"
 epochs: 2

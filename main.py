@@ -63,14 +63,25 @@ else:
     from model.nn_pytorch import Net
 
 # Initialize model, optimizer, loss function
-model = Net().to(device)
+if config["data"] == "mnist":
+    model = Net().to(device)
+    batch_size = config["mnist"]["batch_size"]
+    train_loader, test_loader = get_loaders(dataset = config["data"], batch_size = batch_size)
+else:
+    input_size = config["synthetic_data"]["input_size"]
+    output_size = config["synthetic_data"]["classes"]
+    train_samples = config["synthetic_data"]["train_samples"]
+    test_samples = config["synthetic_data"]["test_samples"]
+    batch_size = config["synthetic_data"]["batch_size"]
+    model = Net(input_size = input_size, output_size = output_size).to(device)
+    train_loader, test_loader = get_loaders(dataset = config["data"], num_features = input_size, num_classes = output_size, train_samples = train_samples, test_samples = test_samples , batch_size = batch_size)
+
 optimizer = SGD(model.parameters(), lr=0.01)
 criterion = nn.CrossEntropyLoss()
 num_epochs = config["epochs"]
 
 model_name = "pretrained_models/" + config["version"] + ".pth"
 
-train_loader, test_loader = get_loaders(config["data"])
 print("Starting training - " + config["version"] + " with " + config["data"] + " data ...")
 
 if config["profile"]:
@@ -80,14 +91,14 @@ if config["profile"]:
         inputs, targets = inputs.to(device), targets.to(device)
         with profile(
                 activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
-                record_shapes=True,
+                record_shapes=False,
                 with_stack=False,
-                profile_memory=True
+                profile_memory=False
             ) as prof:
             for _ in range(1000):
                 model.train()
                 running_loss = 0.0
-                data, target = data.to(device), target.to(device)
+                data, target = inputs.to(device), targets.to(device)
                 optimizer.zero_grad()
                 with record_function("Forward"):
                     output = model(data)
@@ -95,6 +106,7 @@ if config["profile"]:
                 with record_function("Backward"):
                     loss.backward()
                 optimizer.step()
+        print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=5))
     else:  # "profile_training"
         data_iter = iter(train_loader)
         (data, target) = next(data_iter)
@@ -102,7 +114,9 @@ if config["profile"]:
                 activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
                 record_shapes=True,
                 with_stack=False,
-                profile_memory=True
+                profile_memory=True,
+                with_modules=False,
+                acc_events=True
             ) as prof:
             for _ in range(1000):
                 model.train()

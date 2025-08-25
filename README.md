@@ -80,6 +80,6 @@ pytest
 or (to avoid specific wardnings if packages are outdated.)
 
 ```bash
-pytest -W error::DeprecationWarning
+pytest -W ignore::DeprecationWarning
 ```
 

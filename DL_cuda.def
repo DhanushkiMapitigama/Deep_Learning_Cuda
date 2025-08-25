@@ -3,11 +3,11 @@ From: /apps/containers/Conda/miniforge-24.11.3-0.sif
 
 %post
     conda update -n base -c conda-forge conda
-    conda install -c conda-forge cxx-compiler
+    conda install -c conda-forge gcc=12 gxx=12
     conda install -y python-dateutil
+    conda install -c conda-forge matplotlib
     conda install nvidia/label/cuda-12.4.0::cuda-nvcc
-    conda install nvidia/label/cuda-12.4.0::cuda-cudart-dev
-    conda install nvidia/label/cuda-12.3.2::cuda-toolkit
     conda install nvidia/label/cuda-12.4.0::cuda-toolkit
+    conda install nvidia/label/cuda-12.4.0::cuda-cccl
     conda install pytorch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 pytorch-cuda=12.4 -c pytorch -c nvidia
 

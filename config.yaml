@@ -9,9 +9,14 @@ mnist:
 synthetic_data:
   input_size: 1000 # Int
   classes: 10 # Int
-  train_samples: 10000 # Int
-  test_samples: 4000 # Int
+  train_samples: 128 # Int
+  test_samples: 32 # Int
   batch_size: 64 # Int power of 2 
+
+profile_config:
+  input_size: 1000 # Int
+  classes: 10 # Int
+  samples: 64 # Int
 
 profile: True  # Boolean
 workflow: "profile_forward_backward" # Options: "training" or "profile_forward_backward"

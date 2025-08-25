@@ -43,6 +43,9 @@ class SyntheticData(Dataset):
 
     def __getitem__(self, idx):
         return self.data[idx], self.labels[idx]
+    
+    def __getdata__(self):
+        return self.data, self.labels
 
 
 def get_synthetic_loaders(

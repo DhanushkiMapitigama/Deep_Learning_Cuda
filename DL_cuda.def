@@ -10,4 +10,7 @@ From: /apps/containers/Conda/miniforge-24.11.3-0.sif
     conda install nvidia/label/cuda-12.4.0::cuda-toolkit
     conda install nvidia/label/cuda-12.4.0::cuda-cccl
     conda install pytorch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 pytorch-cuda=12.4 -c pytorch -c nvidia
+    conda install conda-forge::pytest
+    
+
 

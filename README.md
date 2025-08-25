@@ -24,7 +24,55 @@ Inside the container, verify that CUDA is properly configured:
 nvcc --version
 ```
 
+## Build cuda kernals
+
+You need to compile cuda kernals before using them
+
+```bash
+cd cuda_kernals
+pip install --user -e .
+cd ..
+```
+
+## To Run the model with custom functions
+
+Configure the yaml file with preferred settings.
+
+```bash
+python main.py
+```
+
 ## Experiments
 
-For experiments (on HPC cluster):
-    Slurm job instructions to be added.
+To run performance experiments first give preffered model configurations in config.yaml.
+
+Then run
+
+```bash
+python experiements/experiments.py
+```
+
+To do compute profiling experiments first give preffered data configurations in config.yaml.
+
+Then run
+
+```bash
+python experiements/compute_experiments.py
+```
+
+## Tests
+
+Checkout to test branch.
+
+Run
+
+```bash
+pytest
+```
+
+or (to avoid specific wardnings if packages are outdated.)
+
+```bash
+pytest -W error::DeprecationWarning
+```
+
